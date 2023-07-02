@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>ciscn2023 | hahbiubiubiu</title><meta name="keywords" content="Reverse,CTF"><meta name="author" content="hahbiubiubiu"><meta name="copyright" content="hahbiubiubiu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="babyresnap.berkeley.edu打开xml文件。 修改设置secret变量的流程：  在其设置完secret后展示：  得到secret：  逆向如图所示的算法：  具体流程就是将输入的每两个字符进行异或，放置到test中，然后将test[1:-1]与secret比对 exp1234data&#x3D;[102,10,13,6,28,74,3,1,3,7,85,0,4,75,20,92,92,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ciscn2023">
+<meta property="og:url" content="http://hahbiubiubiu.github.io/2023/06/27/ciscn2023/index.html">
+<meta property="og:site_name" content="hahbiubiubiu">
+<meta property="og:description" content="babyresnap.berkeley.edu打开xml文件。 修改设置secret变量的流程：  在其设置完secret后展示：  得到secret：  逆向如图所示的算法：  具体流程就是将输入的每两个字符进行异或，放置到test中，然后将test[1:-1]与secret比对 exp1234data&#x3D;[102,10,13,6,28,74,3,1,3,7,85,0,4,75,20,92,92,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hahbiubiubiu.github.io/img/preview.jpg">
+<meta property="article:published_time" content="2023-06-27T09:55:23.000Z">
+<meta property="article:modified_time" content="2023-06-28T07:12:54.260Z">
+<meta property="article:author" content="hahbiubiubiu">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hahbiubiubiu.github.io/img/preview.jpg"><link rel="shortcut icon" href="/./img/Valkyrie.jpg"><link rel="canonical" href="http://hahbiubiubiu.github.io/2023/06/27/ciscn2023/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":100},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ciscn2023',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-28 15:12:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/Valkyrie.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa fa-sitemap"></i><span> 站点</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://0x3.com"><i class="fa-fw fa fa-paper-plane"></i><span> 我的导航</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.bilibili.com/"><i class="fa-fw fa fa fa-window-restore"></i><span> BilBil</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-bookmark"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/./img/preview.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">hahbiubiubiu</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa fa-sitemap"></i><span> 站点</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://0x3.com"><i class="fa-fw fa fa-paper-plane"></i><span> 我的导航</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.bilibili.com/"><i class="fa-fw fa fa fa-window-restore"></i><span> BilBil</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-bookmark"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ciscn2023</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-27T09:55:23.000Z" title="发表于 2023-06-27 17:55:23">2023-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-28T07:12:54.260Z" title="更新于 2023-06-28 15:12:54">2023-06-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Reverse/">Reverse</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ciscn2023"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="babyre"><a href="#babyre" class="headerlink" title="babyre"></a>babyre</h1><p>snap.berkeley.edu打开xml文件。</p>
+<p>修改设置<code>secret</code>变量的流程：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230528171633929.png" alt="数据生成"></p>
+<p>在其设置完<code>secret</code>后展示：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230528171717916.png" alt="展示"></p>
+<p>得到<code>secret</code>：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230528171755771.png" alt="数据"></p>
+<p>逆向如图所示的算法：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230528171838714.png" alt="比对算法"></p>
+<p>具体流程就是将输入的每两个字符进行异或，放置到<code>test</code>中，然后将<code>test[1:-1]</code>与<code>secret</code>比对</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data=[<span class="number">102</span>,<span class="number">10</span>,<span class="number">13</span>,<span class="number">6</span>,<span class="number">28</span>,<span class="number">74</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">85</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">75</span>,<span class="number">20</span>,<span class="number">92</span>,<span class="number">92</span>,<span class="number">8</span>,<span class="number">28</span>,<span class="number">25</span>,<span class="number">81</span>,<span class="number">83</span>,<span class="number">7</span>,<span class="number">28</span>,<span class="number">76</span>,<span class="number">88</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">29</span>,<span class="number">73</span>,<span class="number">0</span>,<span class="number">86</span>,<span class="number">4</span>,<span class="number">87</span>,<span class="number">87</span>,<span class="number">82</span>,<span class="number">84</span>,<span class="number">85</span>,<span class="number">4</span>,<span class="number">85</span>,<span class="number">87</span>,<span class="number">30</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(data)):</span><br><span class="line">    data[i]^=data[i-<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>(data))</span><br></pre></td></tr></table></figure>
+
+<h1 id="ezbyte"><a href="#ezbyte" class="headerlink" title="ezbyte"></a>ezbyte</h1><p><img src="/2023/06/27/ciscn2023/image-20230627181710006.png" alt="比对逻辑"></p>
+<p>查看程序可以知道flag的前五位和后五位，然后将中间的分别放入r12、r13、r14、r15中，但之后的程序没有对r12有处理。</p>
+<p>使用<code>readelf --debug-dump=frame ezbyte</code>或<code>readelf -Wwr ezbyte</code>获取Dwarf调试信息。</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230627181143587.png" alt="r12处理过程"></p>
+<p>逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">r12, r13, r14, r15 = 0, 0, 0, 0</span><br><span class="line">r12 = (r12 + 1892739) ^ 1237891274917891239 ^ 2616514329260088143</span><br><span class="line">r13 = (r13 + 8971237) ^ 1209847170981118947 ^ 8502251781212277489</span><br><span class="line">r14 = (r14 + 1512312) ^ 1098791727398412397 ^ 2451795628338718684</span><br><span class="line">r15 = (r15 + 9123704) ^ 1890878197237214971 ^ 8722213363631027234</span><br><span class="line">r12 = r12 | r13 | r14 | r15</span><br></pre></td></tr></table></figure>
+
+<p>最后结果应该是0。</p>
+<h1 id="moveAside"><a href="#moveAside" class="headerlink" title="moveAside"></a>moveAside</h1><p>mov混淆，我不会。</p>
+<p>但看wp和调试可以发现，程序应该是一个个字符变换，且用strcmp比较，在strcmp下断点，可以在栈中找到要比较的两个字符。</p>
+<p>也可以使用<code>ltrace</code>获取程序的系统调用：</p>
+<p>执行了一次<code>strcmp</code>就结束了：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230628132748435.png" alt="输入1234567890"></p>
+<p>执行了六次<code>strcmp</code>才结束：</p>
+<p><img src="/2023/06/27/ciscn2023/image-20230628132910371.png" alt="输入flag{...}"></p>
+<h2 id="构造输入输出表"><a href="#构造输入输出表" class="headerlink" title="构造输入输出表"></a>构造输入输出表</h2><p>可以输入<code>0123456789abcdefghijklmnopqrstuvwxyz&#123;&#125;-111</code>尝试获取输入输出表，且记录要比较的字符，并且每次比较时将更改变换后的字符使其比较成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;table:&quot;,Byte(0x8600154),Byte(0x860014C))</span><br><span class="line">PatchByte(0x8600154,Byte(0x860014C))</span><br></pre></td></tr></table></figure>
+
+<h2 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">table = []</span><br><span class="line">final = []</span><br><span class="line"><span class="built_in">input</span> = <span class="string">&quot;0123456789abcdefghijklmnopqrstuvwxyz&#123;&#125;-&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./out.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        line = f.readline()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> line.startswith(<span class="string">&quot;table&quot;</span>):</span><br><span class="line">            lines = line.split()</span><br><span class="line">            table.append(<span class="built_in">int</span>(lines[<span class="number">1</span>]))</span><br><span class="line">            final.append(<span class="built_in">int</span>(lines[<span class="number">2</span>]))</span><br><span class="line"><span class="built_in">print</span>(table)</span><br><span class="line"><span class="built_in">print</span>(final)</span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(final)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(table) - <span class="number">3</span>):</span><br><span class="line">        <span class="keyword">if</span> final[i] == table[j]:</span><br><span class="line">            flag += <span class="built_in">input</span>[j]</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"><span class="comment"># flag&#123;781dda4e-d910-4f06-8f5b-5c3755182337&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="ezAndroid"><a href="#ezAndroid" class="headerlink" title="ezAndroid"></a>ezAndroid</h1><p>不会，做的时候完全不知道要干嘛，看了wp才稍微懂些。</p>
+<p>贴个其他师傅的wp👉[CISCN2023 wp | 心流 (natro92.github.io)](<a target="_blank" rel="noopener" href="https://natro92.github.io/2023/05/29/CISCN2023">https://natro92.github.io/2023/05/29/CISCN2023</a> wp&#x2F;index.html)</p>
+<h1 id="flutterror"><a href="#flutterror" class="headerlink" title="flutterror"></a>flutterror</h1><p>不会，再贴个其他师傅比较取巧的思路👉<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lordtianqiyi/articles/17438974.html">CISCN 2023 RE WP</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://hahbiubiubiu.github.io">hahbiubiubiu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://hahbiubiubiu.github.io/2023/06/27/ciscn2023/">http://hahbiubiubiu.github.io/2023/06/27/ciscn2023/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://hahbiubiubiu.github.io" target="_blank">hahbiubiubiu</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Reverse/">Reverse</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="/./img/preview.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/23/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6/"><img class="next-cover" src="/./img/preview.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DASCTF2023二进制</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/10/04/Bingo%E2%80%94%E2%80%94bugku/" title="Bingo——bugku"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-04</div><div class="title">Bingo——bugku</div></div></a></div><div><a href="/2023/06/23/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6/" title="DASCTF2023二进制"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-23</div><div class="title">DASCTF2023二进制</div></div></a></div><div><a href="/2023/03/23/QExtend/" title="QExtend-300"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-23</div><div class="title">QExtend-300</div></div></a></div><div><a href="/2022/11/18/SCU2022%E6%96%B0%E7%94%9F%E8%B5%9B/" title="SCU2022新生赛"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-18</div><div class="title">SCU2022新生赛</div></div></a></div><div><a href="/2022/10/03/babyLoginPlus-bugku/" title="babyLoginPlus——bugku"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-03</div><div class="title">babyLoginPlus——bugku</div></div></a></div><div><a href="/2023/05/07/d3ctf2023%E5%AD%A6%E4%B9%A0/" title="d3ctf2023学习"><img class="cover" src="/./img/preview.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-07</div><div class="title">d3ctf2023学习</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/Valkyrie.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">hahbiubiubiu</div><div class="author-info__description">派派玩家搞搞震</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hahbiubiubiu"><i class="fab fa-github"></i><span>biubiaboom</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/965116991@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Hello!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#babyre"><span class="toc-number">1.</span> <span class="toc-text">babyre</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exp"><span class="toc-number">1.1.</span> <span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezbyte"><span class="toc-number">2.</span> <span class="toc-text">ezbyte</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#moveAside"><span class="toc-number">3.</span> <span class="toc-text">moveAside</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">构造输入输出表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp-1"><span class="toc-number">3.2.</span> <span class="toc-text">exp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ezAndroid"><span class="toc-number">4.</span> <span class="toc-text">ezAndroid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#flutterror"><span class="toc-number">5.</span> <span class="toc-text">flutterror</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/27/ciscn2023/" title="ciscn2023"><img src="/./img/preview.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ciscn2023"/></a><div class="content"><a class="title" href="/2023/06/27/ciscn2023/" title="ciscn2023">ciscn2023</a><time datetime="2023-06-27T09:55:23.000Z" title="发表于 2023-06-27 17:55:23">2023-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/23/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6/" title="DASCTF2023二进制"><img src="/./img/preview.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DASCTF2023二进制"/></a><div class="content"><a class="title" href="/2023/06/23/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6/" title="DASCTF2023二进制">DASCTF2023二进制</a><time datetime="2023-06-23T02:13:45.000Z" title="发表于 2023-06-23 10:13:45">2023-06-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/11/%E5%AE%89%E6%B4%B5%E6%9D%AF2023-wp/" title="安洵杯2023-wp"><img src="/./img/preview.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="安洵杯2023-wp"/></a><div class="content"><a class="title" href="/2023/06/11/%E5%AE%89%E6%B4%B5%E6%9D%AF2023-wp/" title="安洵杯2023-wp">安洵杯2023-wp</a><time datetime="2023-06-11T05:09:24.000Z" title="发表于 2023-06-11 13:09:24">2023-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By hahbiubiubiu</div><div class="footer_custom_text">hahahahah biubiubiu boomboomboom</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
